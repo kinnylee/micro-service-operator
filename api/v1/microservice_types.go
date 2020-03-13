@@ -36,6 +36,7 @@ type MicroServiceStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:shortName=ms
 
 // MicroService is the Schema for the microservices API
 type MicroService struct {
