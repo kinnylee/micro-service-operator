@@ -1,3 +1,7 @@
 version: "2"
 domain: kinnylee.com
 repo: kinnylee.com/micro-service-operator
+resources:
+- group: devops
+  version: v1
+  kind: MicroService

@@ -1,0 +1,7 @@
+apiVersion: devops.kinnylee.com/v1
+kind: MicroService
+metadata:
+  name: microservice-sample
+spec:
+  # Add fields here
+  foo: bar
