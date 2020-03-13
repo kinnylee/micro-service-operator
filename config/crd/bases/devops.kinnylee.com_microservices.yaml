@@ -11,8 +11,10 @@ spec:
     kind: MicroService
     listKind: MicroServiceList
     plural: microservices
+    shortNames:
+    - ms
     singular: microservice
-  scope: ""
+  scope: Namespaced
   validation:
     openAPIV3Schema:
       description: MicroService is the Schema for the microservices API
@@ -33,7 +35,8 @@ spec:
           description: MicroServiceSpec defines the desired state of MicroService
           properties:
             image:
-              description: 'docker images'
+              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                Important: Run "make" to regenerate code after modifying this file'
               type: string
           required:
           - image
