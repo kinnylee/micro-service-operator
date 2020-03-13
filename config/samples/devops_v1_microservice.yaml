@@ -4,4 +4,4 @@ metadata:
   name: microservice-sample
 spec:
   # Add fields here
-  foo: bar
+  image: busybox
