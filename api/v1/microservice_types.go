@@ -17,6 +17,7 @@ package v1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
@@ -47,6 +48,10 @@ type MicroService struct {
 	Status MicroServiceStatus `json:"status,omitempty"`
 }
 
+func (m MicroService) DeepCopyObject() runtime.Object {
+	panic("implement me")
+}
+
 // +kubebuilder:object:root=true
 
 // MicroServiceList contains a list of MicroService
@@ -54,6 +59,10 @@ type MicroServiceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MicroService `json:"items"`
+}
+
+func (m MicroServiceList) DeepCopyObject() runtime.Object {
+	panic("implement me")
 }
 
 func init() {
