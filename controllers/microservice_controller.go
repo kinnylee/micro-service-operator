@@ -56,26 +56,26 @@ func (r *MicroServiceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 		"app": req.Name,
 	}
 	deployment := appv1.Deployment{
-		TypeMeta:   metav1.TypeMeta{
+		TypeMeta: metav1.TypeMeta{
 			Kind:       "Deployment",
 			APIVersion: "apps/v1",
 		},
 		ObjectMeta: metav1.ObjectMeta{
-			Name: req.Name,
+			Name:      req.Name,
 			Namespace: req.Namespace,
 		},
-		Spec:       appv1.DeploymentSpec{
+		Spec: appv1.DeploymentSpec{
 			Selector: &metav1.LabelSelector{
-				MatchLabels:      podLabels,
+				MatchLabels: podLabels,
 			},
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					Labels: podLabels,
 				},
-				Spec:       corev1.PodSpec{
+				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
 						{
-							Name: req.Name,
+							Name:            req.Name,
 							Image:           ms.Spec.Image,
 							ImagePullPolicy: "Always",
 							Ports: []corev1.ContainerPort{
