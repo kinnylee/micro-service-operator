@@ -34,6 +34,8 @@ spec:
         spec:
           description: MicroServiceSpec defines the desired state of MicroService
           properties:
+            host:
+              type: string
             image:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'
@@ -41,6 +43,7 @@ spec:
             secret:
               type: string
           required:
+          - host
           - image
           - secret
           type: object

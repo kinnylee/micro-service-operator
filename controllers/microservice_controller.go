@@ -19,7 +19,9 @@ import (
 	"context"
 	appv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/api/extensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/util/intstr"
 
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -55,6 +57,8 @@ func (r *MicroServiceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 	podLabels := map[string]string{
 		"app": req.Name,
 	}
+
+	// create deployment
 	deployment := appv1.Deployment{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "Deployment",
@@ -98,8 +102,71 @@ func (r *MicroServiceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 		log.Error(err, "创建deployment资源出错")
 		return ctrl.Result{}, nil
 	}
-	// your logic here
 
+	// create service
+	service := corev1.Service{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "Service",
+			APIVersion: "v1",
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      req.Name,
+			Namespace: req.Namespace,
+		},
+		Spec: corev1.ServiceSpec{
+			Selector: podLabels,
+			Ports: []corev1.ServicePort{
+				{
+					Name:       req.Name,
+					Port:       80,
+					TargetPort: intstr.FromInt(8080),
+					Protocol:   corev1.ProtocolTCP,
+				},
+			},
+		},
+		Status: corev1.ServiceStatus{},
+	}
+	if err := r.Create(cxt, &service); err != nil {
+		log.Error(err, "创建service资源出错")
+		return ctrl.Result{}, err
+	}
+
+	// create ingress
+	ingress := v1beta1.Ingress{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "Ingress",
+			APIVersion: "v1",
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      req.Name,
+			Namespace: req.Namespace,
+		},
+		Spec: v1beta1.IngressSpec{
+			Rules: []v1beta1.IngressRule{
+				{
+					Host: ms.Spec.Host,
+					IngressRuleValue: v1beta1.IngressRuleValue{
+						HTTP: &v1beta1.HTTPIngressRuleValue{
+							Paths: []v1beta1.HTTPIngressPath{
+								{
+									Path: "/",
+									Backend: v1beta1.IngressBackend{
+										ServiceName: req.Name,
+										ServicePort: intstr.FromInt(80),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Status: v1beta1.IngressStatus{},
+	}
+	if err := r.Create(cxt, &ingress); err != nil {
+		log.Error(err, "创建Ingress资源出错")
+		return ctrl.Result{}, nil
+	}
 	return ctrl.Result{}, nil
 }
 

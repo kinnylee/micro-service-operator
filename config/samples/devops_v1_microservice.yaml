@@ -7,3 +7,4 @@ spec:
   # Add fields here
   image: registry.cn-beijing.aliyuncs.com/cloudt-prod/morrow-infra-discovery-ha1:20181214101558
   secret: microservice-secret
+  host: microservice.kinnylee.com

@@ -28,6 +28,7 @@ type MicroServiceSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Image  string `json:"image"`
 	Secret string `json:"secret"`
+	Host   string `json:"host"`
 }
 
 // MicroServiceStatus defines the observed state of MicroService
