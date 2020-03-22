@@ -2,6 +2,8 @@ apiVersion: devops.kinnylee.com/v1
 kind: MicroService
 metadata:
   name: microservice-sample
+  namespace: micro-service-operator-system
 spec:
   # Add fields here
-  image: busybox
+  image: registry.cn-beijing.aliyuncs.com/cloudt-prod/morrow-infra-discovery-ha1:20181214101558
+  secret: microservice-sample

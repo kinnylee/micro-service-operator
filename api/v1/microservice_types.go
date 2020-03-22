@@ -26,7 +26,8 @@ import (
 type MicroServiceSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Image string `json:"image"`
+	Image  string `json:"image"`
+	Secret string `json:"secret"`
 }
 
 // MicroServiceStatus defines the observed state of MicroService

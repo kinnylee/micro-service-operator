@@ -73,6 +73,11 @@ func (r *MicroServiceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 					Labels: podLabels,
 				},
 				Spec: corev1.PodSpec{
+					ImagePullSecrets: []corev1.LocalObjectReference{
+						{
+							Name: ms.Spec.Secret,
+						},
+					},
 					Containers: []corev1.Container{
 						{
 							Name:            req.Name,
